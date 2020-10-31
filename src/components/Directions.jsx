@@ -6,7 +6,7 @@ function Directions(props) {
 
   return (
     <div>
-      <button>directions</button>
+      <button>copy</button>
     </div>
   )
 };
