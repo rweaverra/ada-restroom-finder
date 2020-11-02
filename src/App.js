@@ -47,7 +47,15 @@ function App() {
 
  //add get public restrooms button here
 
+  if(!latitude) {
+    return (
+      <div>loading</div>
+    )
+  }
+
   return (
+
+
     <div>
       <div className="App">
 
