@@ -21,10 +21,11 @@ distance: Number
 
 });
 
-const RestroomLocation = mongoose.model('RestroomLocation', restroomSchema);
+const RestroomLocation = mongoose.model('restroomlocations', restroomSchema);
 
 
 module.exports = {
-  RestroomLocation
+  RestroomLocation,
+  restroomSchema
 };
 

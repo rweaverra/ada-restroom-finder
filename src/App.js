@@ -2,6 +2,7 @@ import './App.css';
 import React, {useState} from 'react';
 import List from './components/List.jsx';
 import axios from 'axios';
+import FormModal from './components/FormModal'
 
 function App() {
   const [locations, setLocations] = useState([]);
@@ -20,7 +21,16 @@ function App() {
   })
   };
 
+
   getLocation();
+
+
+  // Modal===========
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  function handleShow() { setShow(true); }
+
+
 
   const axiosRequest = () => {
     if(!latitude) {
@@ -57,14 +67,15 @@ function App() {
 
 
     <div>
+      <div>
+      <button onClick={axiosRequest}>get Location</button>
+      <button onClick={handleShow}>submit form</button>
+      <FormModal show={show} onHide={handleClose} />
+    </div>
       <div className="App">
-
-
       <List locations={locations}/>
     </div>
-    <div>
-      <button onClick={axiosRequest}>get Location</button>
-    </div>
+
     </div>
 
   )
