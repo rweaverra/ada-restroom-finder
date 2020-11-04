@@ -1,8 +1,11 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import List from './components/List.jsx';
 import axios from 'axios';
 import FormModal from './components/FormModal'
+import {
+  Container, Col, Row, Button,
+} from 'react-bootstrap';
 
 function App() {
   const [locations, setLocations] = useState([]);
@@ -21,8 +24,10 @@ function App() {
   })
   };
 
+  useEffect(() => {
+    getLocation();
+  })
 
-  getLocation();
 
 
   // Modal===========
@@ -57,26 +62,33 @@ function App() {
 
  //add get public restrooms button here
 
-  if(!latitude) {
-    return (
-      <div>loading</div>
-    )
-  }
+
+
+ //HAVING ISSUES SEARCHING LOCATION
+
+  // if(!latitude) {
+  //   return (
+  //     <div>Currently finding your location</div>
+  //   )
+  // }
 
   return (
 
+   <Container className="appContainer">
+     <Row className="title">ADA Public Restroom Finder </Row>
+     <Row className="buttonRow">
 
-    <div>
-      <div>
-      <button onClick={axiosRequest}>get Location</button>
-      <button onClick={handleShow}>submit form</button>
+        <button className="buttons" onClick={axiosRequest}>get Location</button>
+
+      <button className="buttons" onClick={handleShow}>submit form</button>
+
+      </Row>
       <FormModal show={show} onHide={handleClose} />
-    </div>
-      <div className="App">
+      <div className="list">
       <List locations={locations}/>
-    </div>
+      </div>
 
-    </div>
+    </Container>
 
   )
 }

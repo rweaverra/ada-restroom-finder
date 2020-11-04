@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Modal, ModalDialog, ModalHeader, ModalTitle, ModalBody, ModalFooter, Button,
 } from 'react-bootstrap';
-import FormInputs from './FormInputs';
+import FormInputs from './FormInputs.jsx';
 
 function FormModal( {show, onHide }) {
   if (show) {

@@ -1,6 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require('body-parser')
+const cors = require('cors');
 
 const mongoDB = 'mongodb://localhost:27017/test';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -21,6 +22,7 @@ const app = express()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('../client/dist'));
+app.use(cors());
 
 
 //  Had to initialt the schema to mongoDB with the below functions. Not sure how they are doing it on their own.

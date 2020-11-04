@@ -10,12 +10,10 @@ function List({ locations }) {
       <Location location={location} key={i + location.id}/>
     )
   return (
-    <div>
+
       <div>
         {specificLocation}
       </div>
-
-  </div>
   )
 };
 
