@@ -4,14 +4,17 @@ const LocationController = {
   //get locations by either longitude and latitude within 1 point. need to understand relation of both. for now I will do a get all
 
   create: (body, callback) => {
-    console.log('inside location controller')
+    console.log('inside location controller', body);
     RestroomLocation.create(
-      { name: 'turd burgle',
-      street: 'String',
-      city: 'String',
-      state: 'String',
+      { name: body.name,
+      street: body.street,
+      city: body.city,
+      state: body.state,
       accessible: true,
-      comment: 'atte' },
+      comment: body.comment,
+      latitude: body.latitude,
+      longitude: body.longitude
+    },
       (err, data) => {
         if (err) {
           callback(err, null);

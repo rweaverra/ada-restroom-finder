@@ -48,11 +48,32 @@ app.post('/addLocation', (req, res) => {
   //Make GoogleMaps API request to get long/lat
   axios.get(apiRequest)
    .then((response) => {
-    res.send(response)
+     var location = response.data.results[0].geometry.location
+
+    var latitude = location.lat;
+    var longitude = location.lng;
+
+    result.latitude = latitude;
+    result.longitude = longitude;
+    console.log(result)
+
+    //DATABASE QUERY BELOW
+  LocationController.create(result, (err, result) => {
+    if (err) {
+      res.sendStatus(420)
+    } else {
+      res.send(result);
+    }
+
+  })
+
    })
    .catch(function (error) {
     console.log(error);
   });
+
+
+
   //DATABASE QUERY BELOW
   // LocationController.create('restroomlocations', (err, result) => {
   //   if (err) {
@@ -67,10 +88,10 @@ app.post('/addLocation', (req, res) => {
 
 
 
-app.get('/locations', (req, res) => {
-  console.log(req.body);
- var currentLatitude = 39.518520;
- var currentLongitude = -104.762772;    //<<<will need to change to req.body.lattitude
+app.post('/locations', (req, res) => {
+  console.log('req.body', req.body);
+ var currentLatitude = req.body.latitude;
+ var currentLongitude = req.body.longitude;
 
   RestroomLocation.find(function(err, result) {
     //iterate through results

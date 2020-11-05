@@ -44,9 +44,9 @@ function App() {
     } else {
 
       axios({
-        method: 'get',
+        method: 'post',
         url: `http://localhost:4000/locations`,
-        body: {
+        data: {
           latitude: latitude,
           longitude: longitude
         }
