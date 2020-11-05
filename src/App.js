@@ -40,12 +40,16 @@ function App() {
   const axiosRequest = () => {
     if(!latitude) {
 
-      console.log('waht!')
+      alert('loading current location, please click again')
     } else {
 
       axios({
         method: 'get',
-        url: `https://www.refugerestrooms.org/api/v1/restrooms/by_location?page=1&per_page=10&offset=0&ada=true&lat=${latitude}&lng=${longitude}`
+        url: `http://localhost:4000/locations`,
+        body: {
+          latitude: latitude,
+          longitude: longitude
+        }
       }).then((response) => {
         console.log(response.data);
         setLocations(response.data);

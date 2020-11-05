@@ -2,6 +2,8 @@ const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require('body-parser')
 const cors = require('cors');
+const API_KEY = require('./../configKey')
+const axios = require('axios')
 
 const mongoDB = 'mongodb://localhost:27017/test';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -31,42 +33,74 @@ mongoose.model('users', {name: String});
 // RestroomLocation();
 
 app.post('/addLocation', (req, res) => {
+  console.log(req.body);
+  var result = req.body
+   //will need to replace spaces with +
+   var splitSpaces = result.street.split(' ');
+   var formattedStreet = splitSpaces.join('+');
+   var address = `${formattedStreet},+${result.city},+${result.state}`
 
-  // mongoose.model('users').create(
-  //   { name: 'asdf',
-  //   street: 'String',
-  //   city: 'String',
-  //   state: 'String',
-  //   accessible: true,
-  //   comment: 'atte' },
-  //   function(err, users) {
-  //     console.log('recevec')
-  //     res.send(users);
+
+   var apiRequest = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY.API_KEY}`
+
+   console.log('apiRequest', apiRequest);
+
+  //Make GoogleMaps API request to get long/lat
+  axios.get(apiRequest)
+   .then((response) => {
+    res.send(response)
+   })
+   .catch(function (error) {
+    console.log(error);
+  });
+  //DATABASE QUERY BELOW
+  // LocationController.create('restroomlocations', (err, result) => {
+  //   if (err) {
+  //     res.sendStatus(420)
+  //   } else {
+  //     res.send(result);
   //   }
-  // )
 
-  LocationController.create('restroomlocations', (err, result) => {
-    if (err) {
-      res.sendStatus(420)
-    } else {
-      res.send(result);
-    }
-
-  })
+  // })
 
 })
 
 
 
-app.get('/test', (req, res) => {
+app.get('/locations', (req, res) => {
+  console.log(req.body);
+ var currentLatitude = 39.518520;
+ var currentLongitude = -104.762772;    //<<<will need to change to req.body.lattitude
 
   RestroomLocation.find(function(err, result) {
-    res.send(result);
+    //iterate through results
+    shortestDistance = [];
+    shortest = result[0];
+
+    result.forEach((location) => {
+      //do a distance calculation with latitude and longitude
+      var distance = Math.sqrt(Math.pow(Math.abs(currentLatitude - location.latitude), 2) + Math.pow(Math.abs(currentLongitude - location.longitude), 2))
+       distance *= 69;
+       location.distance = distance;
+
+    })
+    //sort the array of objects
+    result.sort(function(a, b) {
+      var distanceA = a.distance;
+      var distanceB = b.distance;
+      if (distanceA < distanceB) {
+        return -1;
+      }
+      if (distanceA > distanceB) {
+        return 1;
+      }
+
+    } )
+
+    var closestSix = result.slice(0, 7)
+    res.send(closestSix);
+
   })
-  // mongoose.model('restroomlocations').find(function(err, users) {
-  //   console.log('recevec')
-  //   res.send(users);
-  // })
 
 })
 
