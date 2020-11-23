@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   Form, FormCheck, FormFile, Button,
-} from 'react-bootstrap';
+  } from 'react-bootstrap';
 import axios from 'axios';
 
 function FormInputs({ onHide }) {
@@ -13,10 +13,6 @@ function FormInputs({ onHide }) {
     accessible: '',
     comment: '',
   });
-
-
-
-
 
 
   function submitForm(event) {
@@ -56,13 +52,11 @@ function FormInputs({ onHide }) {
     console.log(state);
   }
 
-
-
   return (
     <div><Form onSubmit={submitForm}>
 
     <Form.Group controlId="name">
-      <Form.Label>Name</Form.Label>
+      <Form.Label>Business Name</Form.Label>
       <Form.Control type="text" name="name" value={state.name} onChange={handleChange} />
     </Form.Group>
 
@@ -88,7 +82,7 @@ function FormInputs({ onHide }) {
             label="yes"
             id="accessable"
             value="yes"
-            checked={state.recommend === true}
+            checked={state.accessible === true}
             onChange={handleRadio}
           />
           <Form.Check
@@ -96,7 +90,7 @@ function FormInputs({ onHide }) {
             label="no"
             id="notAccessable"
             value="no"
-            checked={state.recommend === false}
+            checked={state.accessible === false}
             onChange={handleRadio}
           />
         </Form.Group>

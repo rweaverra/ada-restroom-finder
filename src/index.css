@@ -5,6 +5,12 @@ background-size: cover;
 
 } */
 
+img {
+  width: 150px;
+  height: 150px;
+  margin-right: 60px;
+}
+
 .buttonRow {
   justify-content: center;
 }

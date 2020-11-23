@@ -10,7 +10,6 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  // we're connected!
   console.log('mongoose is connected')
 });
 
@@ -27,15 +26,13 @@ app.use(express.static('../client/dist'));
 app.use(cors());
 
 
-//  Had to initialt the schema to mongoDB with the below functions. Not sure how they are doing it on their own.
+
 mongoose.model('users', {name: String});
-// mongoose.model('restroomlocations', restroomSchema);
-// RestroomLocation();
 
 app.post('/addLocation', (req, res) => {
   console.log(req.body);
   var result = req.body
-   //will need to replace spaces with +
+
    var splitSpaces = result.street.split(' ');
    var formattedStreet = splitSpaces.join('+');
    var address = `${formattedStreet},+${result.city},+${result.state}`
@@ -64,25 +61,11 @@ app.post('/addLocation', (req, res) => {
     } else {
       res.send(result);
     }
-
   })
-
-   })
+ })
    .catch(function (error) {
     console.log(error);
   });
-
-
-
-  //DATABASE QUERY BELOW
-  // LocationController.create('restroomlocations', (err, result) => {
-  //   if (err) {
-  //     res.sendStatus(420)
-  //   } else {
-  //     res.send(result);
-  //   }
-
-  // })
 
 })
 
@@ -94,18 +77,18 @@ app.post('/locations', (req, res) => {
  var currentLongitude = req.body.longitude;
 
   RestroomLocation.find(function(err, result) {
-    //iterate through results
+
     shortestDistance = [];
     shortest = result[0];
 
     result.forEach((location) => {
-      //do a distance calculation with latitude and longitude
+
       var distance = Math.sqrt(Math.pow(Math.abs(currentLatitude - location.latitude), 2) + Math.pow(Math.abs(currentLongitude - location.longitude), 2))
-       distance *= 69;
+       distance *= 53;
        location.distance = distance;
 
     })
-    //sort the array of objects
+
     result.sort(function(a, b) {
       var distanceA = a.distance;
       var distanceB = b.distance;
@@ -115,18 +98,11 @@ app.post('/locations', (req, res) => {
       if (distanceA > distanceB) {
         return 1;
       }
-
-    } )
-
+    })
     var closestSix = result.slice(0, 7)
     res.send(closestSix);
-
   })
-
 })
-
-
-
 
 
 

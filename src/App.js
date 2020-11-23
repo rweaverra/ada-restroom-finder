@@ -7,6 +7,7 @@ import {
   Container, Col, Row, Button,
 } from 'react-bootstrap';
 
+
 function App() {
   const [locations, setLocations] = useState([]);
   const [latitude, setLatitude] = useState('');
@@ -58,33 +59,19 @@ function App() {
 
     }
 
-
-
-  //get request to bathroom API to pull the top 5 nearest locations
-
- //create the get request with the current long/latitude
-
- //add get public restrooms button here
-
-
-
- //HAVING ISSUES SEARCHING LOCATION
-
-  // if(!latitude) {
-  //   return (
-  //     <div>Currently finding your location</div>
-  //   )
-  // }
-
   return (
 
    <Container className="appContainer">
-     <Row className="title">ADA Public Restroom Finder </Row>
+     <Row className="title">
+     <div>
+      <img src="https://winmarkstampandsign.com/wp-content/uploads/2018/08/ADA005-Black.jpg" alt="image" />
+    </div>
+     ADA Public Restroom Finder </Row>
      <Row className="buttonRow">
 
-        <button className="buttons" onClick={axiosRequest}>get Location</button>
+        <button className="buttons" onClick={axiosRequest}>Find Nearest Restrooms</button>
 
-      <button className="buttons" onClick={handleShow}>submit form</button>
+      <button className="buttons" onClick={handleShow}>Submit New Restroom</button>
 
       </Row>
       <FormModal show={show} onHide={handleClose} />
